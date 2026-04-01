@@ -60,9 +60,9 @@ const Edgefold: React.FC = () => {
 
       // Check if the container is on hold
       if (response.containerInfo["Status"] === "Hold") {
-        // throw new Error("Container is on hold.");
-        logMessage(`Changing container status from Hold to OK... ⏳`);
-        await api.changeContainerStatus(serialNo, "OK");
+        throw new Error("Container is on hold.");
+        // logMessage(`Changing container status from Hold to OK... ⏳`);
+        // await api.changeContainerStatus(serialNo, "OK");
       }
 
       // Check if the container is inactive
@@ -75,7 +75,7 @@ const Edgefold: React.FC = () => {
       const workcenterPartNo = workcenterInfo!["Part Number"];
       if (String(response.containerInfo["Part Number"]) != workcenterPartNo) {
         throw new Error(
-          `Scanned part number does not match, please check workcenter configuration on Plex. Expected: ${workcenterPartNo}, Scanned: ${response.containerInfo["Part Number"]}`
+          `Scanned part number does not match, please check workcenter configuration on Plex. Expected: ${workcenterPartNo}, Scanned: ${response.containerInfo["Part Number"]}`,
         );
       }
       // logMessage("Substrate part number matched ✔️");
@@ -100,7 +100,7 @@ const Edgefold: React.FC = () => {
       if (error.message === `Container Part Not Valid. Choose New Job.`) {
         logMessage(
           `Error: No job being selected. Please select a job on Plex ❌`,
-          "#FF6666"
+          "#FF6666",
         );
       } else if (
         error.message === `Serial No ${serialNo} was already edgefolded.`
